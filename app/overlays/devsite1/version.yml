@@ -1,0 +1,11 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-multienv
+spec:
+  template:
+    spec:
+      containers:
+      - name: app-multienv
+        image: nginx:1.23

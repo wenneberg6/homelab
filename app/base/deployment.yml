@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-multienv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-multienv
+  template:
+    metadata:
+      labels:
+        app: app-multienv
+    spec:
+      containers:
+      - name: app-multienv
+        image: nginx:1.20
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: html
+            mountPath: /usr/share/nginx/html
+        # env:
+        # - name: LOG_LEVEL
+        #   value: "DEBUG"
+      volumes:
+      - name: html 
+        configMap:
+          name: app-multienv
+          items:
+          - key: body
+            path: index.html          

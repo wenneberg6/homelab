@@ -1,0 +1,14 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-multienv
+spec:
+  template:
+    spec:
+      containers:
+      - name: app-multienv
+        env:
+        # Her kunne vi f.eks sætte APM env vars
+        - name: DB_PASSWORD
+          value: "non-prod-password"    

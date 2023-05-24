@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-multienv
+data:
+  body: >
+    <html>
+      <style>
+        body {
+          background-color: #222;
+        }
+        p {
+          font-family:"Arial";
+          font-size:15rem;
+          color:#fff;
+          text-align:center;
+        }
+      </style>
+      <body>
+        <p>DEVELOPMENT</p>
+      </body>
+    </html>
