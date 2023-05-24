@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-multienv-devsite1
+  name: app-multienv-site1
   namespace: argocd
 spec:
   # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/application.yaml
@@ -9,10 +9,10 @@ spec:
   source:
     repoURL: https://github.com/wenneberg6/homelab.git
     targetRevision: HEAD
-    path: app/overlays/devsite1
+    path: app/overlays/site1
   destination:
     server: https://kubernetes.default.svc
-    namespace: devsite1
+    namespace: site1
   syncPolicy:
     automated: 
       prune: true 
