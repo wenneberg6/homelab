@@ -1,33 +1,83 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: app
+  name: frontend-light
+  labels:
+    app: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: frontend
   template:
     metadata:
       labels:
-        app: app
+        app: frontend
+        version: light
     spec:
       containers:
-      - name: app
-        image: nginx:1.20
-        imagePullPolicy: Always
-        ports:
-          - containerPort: 80
-        volumeMounts:
-          - name: html
-            mountPath: /usr/share/nginx/html
-        # env:
-        # - name: LOG_LEVEL
-        #   value: "DEBUG"
-      volumes:
-      - name: html 
-        configMap:
-          name: app
-          items:
-          - key: body
-            path: index.html          
+        - name: frontend
+          image: jwenneberg/nginx-light:0.0.2
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80
+
+---              
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: frontend-dark
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: dark
+    spec:
+      containers:
+        - name: frontend
+          image: jwenneberg/nginx-dark:0.0.2
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+  selector:
+    app: frontend
+    # version: dark
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /frontend(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              name: web

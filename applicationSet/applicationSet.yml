@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: app-set
+  name: appset
+  namespace: argocd
 spec:
   generators:
   - list:
@@ -18,13 +19,20 @@ spec:
       #   url: https://9.8.7.6
   template:
     metadata:
-      name: '{{cluster}}-app-set'
+      name: '{{cluster}}-appset'
     spec:
-      project: proj-site1
+      project: default
+      # project: proj-site1
       source:
         repoURL: https://github.com/wenneberg6/homelab.git
         targetRevision: HEAD
         path: applicationSet/{{cluster}}
       destination:
         server: '{{url}}'
-        namespace: '{{cluster}}app-set'
+        namespace: '{{cluster}}-appset'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
