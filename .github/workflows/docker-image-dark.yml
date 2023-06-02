@@ -7,9 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DOCKERHUB_REPOSITORY: jwenneberg/nginx-dark
-      
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,9 +19,9 @@ jobs:
             
       - name: docker build
         run: | # Tag the image with the commit hash
-          docker build -f images/Dockerfile-dark -t $DOCKERHUB_REPOSITORY .
-          docker tag $DOCKERHUB_REPOSITORY:latest $DOCKERHUB_REPOSITORY:$(git log -1 --pretty=%h)
+          docker build -f images/Dockerfile-dark -t jwenneberg/nginx-dark .
+          docker tag jwenneberg/nginx-dark:latest jwenneberg/nginx-dark:$(git log -1 --pretty=%h)
 
       - name: docker push
         run: |
-          docker push $DOCKERHUB_REPOSITORY
+          docker push jwenneberg/nginx-dark
