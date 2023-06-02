@@ -24,4 +24,4 @@ jobs:
 
       - name: docker push
         run: |
-          docker push wenneberg/nginx-dark:$(git log -1 --pretty=%h)
+          docker push jwenneberg/nginx-dark:$(git log -1 --pretty=%h)
