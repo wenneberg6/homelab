@@ -22,7 +22,7 @@ jobs:
             
       - name: docker build
         run: | # Tag the image with the commit hash
-          docker build -t $DOCKERHUB_REPOSITORY .
+          docker build -f images/Dockerfile-dark -t $DOCKERHUB_REPOSITORY .
           docker tag $DOCKERHUB_REPOSITORY:latest $DOCKERHUB_REPOSITORY:$(git log -1 --pretty=%h)
 
       - name: docker push
