@@ -19,8 +19,7 @@ jobs:
             
       - name: docker build
         run: | # Tag the image with the commit hash
-          docker build -f images/Dockerfile-dark -t jwenneberg/nginx-dark ./images
-          docker tag jwenneberg/nginx-dark:latest jwenneberg/nginx-dark:$(git log -1 --pretty=%h)
+          docker build -f images/Dockerfile-dark -t jwenneberg/nginx-dark:latest -t jwenneberg/nginx-dark:$(git log -1 --pretty=%h) ./images
 
       - name: docker push
         run: |
