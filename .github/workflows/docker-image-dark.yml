@@ -24,4 +24,4 @@ jobs:
 
       - name: docker push
         run: |
-          docker push jwenneberg/nginx-dark
+          docker push jwenneberg/nginx-dark:latest
