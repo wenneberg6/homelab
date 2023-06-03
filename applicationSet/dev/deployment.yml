@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: jwenneberg/nginx-dark:0.0.2
+          image: jwenneberg/nginx-dark:0.0.4
           imagePullPolicy: Always
           ports:
             - name: web
